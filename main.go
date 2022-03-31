@@ -21,13 +21,6 @@ func init() {
 	fmt.Println("🔥 Concurrency:", concurrency)
 	fmt.Println("⏱ Duration: up to", duration, "milliseconds")
 	fmt.Println()
-
-	go func() {
-		for {
-			time.Sleep(time.Second)
-			fmt.Printf("🔥 Concurrency: %d | Queue: %d | Done: %d 🔥\n", runtime.NumGoroutine()-2, len(queue), done)
-		}
-	}()
 }
 
 func work(item string, duration int) {
@@ -39,6 +32,13 @@ func work(item string, duration int) {
 }
 
 func main() {
+	go func() {
+		for {
+			time.Sleep(time.Second)
+			fmt.Printf("🔥 Concurrency: %d | Queue: %d | Done: %d 🔥\n", runtime.NumGoroutine()-2, len(queue), done)
+		}
+	}()
+
 	var channel = make(chan bool, concurrency)
 	var wait sync.WaitGroup
 
